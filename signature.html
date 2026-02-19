@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signature Resize to 10KB</title>
+
+<style>
+body{
+  font-family: Arial;
+  background:#f2f4f7;
+  padding:20px;
+}
+.container{
+  max-width:400px;
+  margin:auto;
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+input,button{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+}
+button{
+  background:#0d6efd;
+  color:white;
+  border:none;
+}
+img{
+  max-width:100%;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Signature Resize to 10KB</h2>
+
+<input type="file" id="upload" accept="image/*">
+
+<button onclick="compressSignature()">Convert to 10KB</button>
+
+<a id="downloadLink" style="display:none;">
+<button>Download Signature</button>
+</a>
+
+</div>
+
+<script>
+
+let selectedFile;
+
+document.getElementById("upload").addEventListener("change", function(e){
+  selectedFile = e.target.files[0];
+});
+
+function compressSignature(){
+
+  if(!selectedFile){
+    alert("Upload signature first");
+    return;
+  }
+
+  let reader = new FileReader();
+
+  reader.onload = function(event){
+
+    let img = new Image();
+    img.src = event.target.result;
+
+    img.onload = function(){
+
+      let canvas = document.createElement("canvas");
+      let ctx = canvas.getContext("2d");
+
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      ctx.drawImage(img,0,0);
+
+      let quality = 0.9;
+
+      function compress(){
+        let dataUrl = canvas.toDataURL("image/jpeg", quality);
+        let sizeKB = (dataUrl.length * 3/4)/1024;
+
+        if(sizeKB > 10 && quality > 0.1){
+          quality -= 0.05;
+          compress();
+        } else {
+
+          const link = document.getElementById("downloadLink");
+          link.href = dataUrl;
+          link.download = "signature_10kb.jpg";
+          link.style.display = "block";
+        }
+      }
+
+      compress();
+    }
+  }
+
+  reader.readAsDataURL(selectedFile);
+}
+
+</script>
+
+</body>
+</html>
