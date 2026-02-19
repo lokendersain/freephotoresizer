@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FormPhotoResize - Drag Crop & Resize Tool</title>
+
+<link href="https://unpkg.com/cropperjs/dist/cropper.css" rel="stylesheet"/>
+
+<style>
+body{margin:0;font-family:Arial;background:#f4f7fa;}
+header{background:#0d6efd;color:white;text-align:center;padding:15px;font-size:20px;font-weight:bold;}
+.container{max-width:500px;margin:20px auto;background:white;padding:20px;border-radius:10px;box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+input,select,button{width:100%;padding:10px;margin:8px 0;border-radius:6px;border:1px solid #ccc;font-size:15px;}
+button{background:#0d6efd;color:white;border:none;font-weight:bold;cursor:pointer;}
+button:hover{background:#0b5ed7;}
+.preset button{width:32%;margin:3px 1%;background:#198754;}
+img{max-width:100%;}
+footer{text-align:center;font-size:13px;padding:10px;color:#666;}
+</style>
+</head>
+
+<body>
+
+<header>FormPhotoResize - Drag Crop & Resize</header>
+
+<div class="container">
+
+<input type="file" id="upload" accept="image/*">
+
+<img id="image" style="display:none;"/>
+
+<div class="preset">
+<button onclick="setKB(10)">10KB</button>
+<button onclick="setKB(20)">20KB</button>
+<button onclick="setKB(50)">50KB</button>
+</div>
+
+<label>Target Size (KB)</label>
+<input type="number" id="targetSize">
+
+<label>Format</label>
+<select id="format">
+<option value="image/jpeg">JPG</option>
+<option value="image/png">PNG</option>
+</select>
+
+<label>Brightness</label>
+<input type="range" id="brightness" min="0.5" max="1.5" step="0.1" value="1">
+
+<button onclick="processImage()">Crop & Compress</button>
+
+<a id="downloadLink" style="display:none;" download="formphotoresize.jpg">
+<button>Download Image</button>
+</a>
+
+</div>
+
+<footer>
+© 2026 FormPhotoResize
+</footer>
+
+<script src="https://unpkg.com/cropperjs/dist/cropper.js"></script>
+
+<script>
+
+let cropper;
+
+document.getElementById("upload").addEventListener("change", function(e){
+const file = e.target.files[0];
+const reader = new FileReader();
+
+reader.onload = function(event){
+const img = document.getElementById("image");
+img.src = event.target.result;
+img.style.display = "block";
+
+if(cropper) cropper.destroy();
+
+cropper = new Cropper(img, {
+viewMode:1,
+autoCropArea:1,
+responsive:true
+});
+};
+
+reader.readAsDataURL(file);
+});
+
+function setKB(kb){
+document.getElementById("targetSize").value = kb;
+}
+
+function processImage(){
+
+if(!cropper){ alert("Upload image first"); return; }
+
+let targetSize = document.getElementById("targetSize").value;
+let format = document.getElementById("format").value;
+let brightness = document.getElementById("brightness").value;
+
+let canvas = cropper.getCroppedCanvas();
+
+let ctx = canvas.getContext("2d");
+ctx.filter = "brightness("+brightness+")";
+ctx.drawImage(canvas,0,0);
+
+let quality = 0.9;
+
+function compress(){
+let dataUrl = canvas.toDataURL(format, quality);
+let sizeKB = (dataUrl.length * 3/4)/1024;
+
+if(targetSize && sizeKB > targetSize && quality > 0.1){
+quality -= 0.05;
+compress();
+} else {
+const link = document.getElementById("downloadLink");
+link.href = dataUrl;
+link.style.display = "block";
+}
+}
+
+compress();
+}
+
+</script>
+
+</body>
+</html>
