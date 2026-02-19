@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resize Image Tool</title>
+
+<style>
+body{
+  font-family: Arial;
+  background:#f2f4f7;
+  padding:20px;
+}
+.container{
+  max-width:400px;
+  margin:auto;
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+input,button{
+  width:100%;
+  padding:10px;
+  margin:10px 0;
+}
+button{
+  background:#0d6efd;
+  color:white;
+  border:none;
+}
+img{
+  max-width:100%;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Resize Image</h2>
+
+<input type="file" id="upload" accept="image/*">
+<input type="number" id="width" placeholder="Enter Width">
+<input type="number" id="height" placeholder="Enter Height">
+
+<button onclick="resizeImage()">Resize</button>
+
+<a id="downloadLink" style="display:none;">
+<button>Download Image</button>
+</a>
+
+</div>
+
+<script>
+
+let selectedFile;
+
+document.getElementById("upload").addEventListener("change", function(e){
+  selectedFile = e.target.files[0];
+});
+
+function resizeImage(){
+
+  if(!selectedFile){
+    alert("Upload image first");
+    return;
+  }
+
+  let width = document.getElementById("width").value;
+  let height = document.getElementById("height").value;
+
+  let reader = new FileReader();
+
+  reader.onload = function(event){
+
+    let img = new Image();
+    img.src = event.target.result;
+
+    img.onload = function(){
+
+      let canvas = document.createElement("canvas");
+      let ctx = canvas.getContext("2d");
+
+      canvas.width = width;
+      canvas.height = height;
+
+      ctx.drawImage(img,0,0,width,height);
+
+      let dataUrl = canvas.toDataURL("image/jpeg",0.9);
+
+      const link = document.getElementById("downloadLink");
+      link.href = dataUrl;
+      link.download = "resized.jpg";
+      link.style.display = "block";
+    }
+  }
+
+  reader.readAsDataURL(selectedFile);
+}
+
+</script>
+
+</body>
+</html>
