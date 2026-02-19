@@ -93,7 +93,41 @@ document.getElementById("targetSize").value = kb;
 
 function processImage(){
 
-if(!cropper){ alert("Upload image first"); return; }
+if(!cropper){
+alert("Upload image first");
+return;
+}
+
+let targetSize = document.getElementById("targetSize").value;
+let format = document.getElementById("format").value;
+let brightness = document.getElementById("brightness").value;
+
+let canvas = cropper.getCroppedCanvas({
+    imageSmoothingQuality: "high"
+});
+
+let ctx = canvas.getContext("2d");
+ctx.filter = "brightness(" + brightness + ")";
+ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height);
+
+let quality = 0.9;
+
+function compress(){
+    let dataUrl = canvas.toDataURL(format, quality);
+    let sizeKB = (dataUrl.length * 3/4)/1024;
+
+    if(targetSize && sizeKB > targetSize && quality > 0.1){
+        quality -= 0.05;
+        compress();
+    } else {
+        const link = document.getElementById("downloadLink");
+        link.href = dataUrl;
+        link.style.display = "block";
+    }
+}
+
+compress();
+}
 
 let targetSize = document.getElementById("targetSize").value;
 let format = document.getElementById("format").value;
