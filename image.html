@@ -1,61 +1,91 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Image Compressor</title>
+
+<title>Compress Image in KB Online for SSC, Banking & Railway Forms</title>
+
+<meta name="description" content="Free online image compressor to reduce image size in KB for SSC, Banking and Railway exam forms. Compress image instantly without losing quality.">
+
+<meta name="keywords" content="compress image in kb, reduce image size for ssc form, image compressor online free, resize photo for banking exam">
+
+<link rel="canonical" href="https://freephotoresizer.vercel.app/image.html">
 
 <style>
 body{
-  font-family: Arial;
-  background:#f2f4f7;
-  margin:0;
-  padding:20px;
+font-family: Arial, sans-serif;
+background:#f2f4f7;
+margin:0;
+padding:20px;
 }
+
 .container{
-  max-width:400px;
-  margin:auto;
-  background:white;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+max-width:450px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
+
+h1{
+text-align:center;
+}
+
 h2{
-  text-align:center;
+text-align:center;
 }
-input,select,button{
-  width:100%;
-  padding:10px;
-  margin:10px 0;
-  border-radius:6px;
-  border:1px solid #ccc;
+
+input, select, button{
+width:100%;
+padding:10px;
+margin:10px 0;
+border-radius:6px;
+border:1px solid #ccc;
 }
+
 button{
-  background:#0d6efd;
-  color:white;
-  border:none;
-  font-weight:bold;
+background:#0d6efd;
+color:white;
+border:none;
+font-weight:bold;
+cursor:pointer;
 }
+
 button:hover{
-  background:#0b5ed7;
+background:#0b5ed7;
 }
+
 img{
-  max-width:100%;
-  margin-top:10px;
-  border-radius:6px;
+max-width:100%;
+margin-top:10px;
+border-radius:6px;
 }
+
 .progress{
-  color:green;
-  font-weight:bold;
-  margin-top:10px;
-  text-align:center;
+color:green;
+font-weight:bold;
+margin-top:10px;
+text-align:center;
+}
+
+footer{
+text-align:center;
+margin-top:30px;
+font-size:14px;
+color:#555;
 }
 </style>
+
 </head>
 
 <body>
 
+<h1>Compress Image in KB for SSC & Banking Forms</h1>
+
 <div class="container">
+
 <h2>Simple Image Compressor</h2>
 
 <input type="file" id="upload" accept="image/*">
@@ -79,85 +109,100 @@ img{
 <button>Download Image</button>
 </a>
 
+<p>
+This free online image compressor helps you reduce image size in KB for SSC, Banking and Railway exam forms. Upload your image, set the required size and download instantly.
+</p>
+
+<p>
+Also try our 
+<a href="resize.html">Image Resizer</a> and 
+<a href="signature.html">Signature Resize Tool</a>.
+</p>
+
 </div>
+
+<footer>
+© 2026 FreePhotoResizer | Made for Competitive Exam Aspirants
+</footer>
 
 <script>
 
 let selectedFile;
 
 document.getElementById("upload").addEventListener("change", function(e){
-  selectedFile = e.target.files[0];
+selectedFile = e.target.files[0];
 
-  if(selectedFile){
-    let reader = new FileReader();
-    reader.onload = function(event){
-      let preview = document.getElementById("preview");
-      preview.src = event.target.result;
-      preview.style.display = "block";
-      document.getElementById("progressText").innerText = "";
-      document.getElementById("downloadLink").style.display = "none";
-    }
-    reader.readAsDataURL(selectedFile);
-  }
+if(selectedFile){
+let reader = new FileReader();
+reader.onload = function(event){
+let preview = document.getElementById("preview");
+preview.src = event.target.result;
+preview.style.display = "block";
+document.getElementById("progressText").innerText = "";
+document.getElementById("downloadLink").style.display = "none";
+}
+reader.readAsDataURL(selectedFile);
+}
 });
 
 function compressImage(){
 
-  if(!selectedFile){
-    alert("Upload image first");
-    return;
-  }
+if(!selectedFile){
+alert("Upload image first");
+return;
+}
 
-  document.getElementById("progressText").innerText = "Compressing...";
+document.getElementById("progressText").innerText = "Compressing...";
 
-  let targetSize = document.getElementById("targetSize").value;
-  let format = document.getElementById("format").value;
+let targetSize = document.getElementById("targetSize").value;
+let format = document.getElementById("format").value;
 
-  let reader = new FileReader();
+let reader = new FileReader();
 
-  reader.onload = function(event){
+reader.onload = function(event){
 
-    let img = new Image();
-    img.src = event.target.result;
+let img = new Image();
+img.src = event.target.result;
 
-    img.onload = function(){
+img.onload = function(){
 
-      let canvas = document.createElement("canvas");
-      let ctx = canvas.getContext("2d");
+let canvas = document.createElement("canvas");
+let ctx = canvas.getContext("2d");
 
-      canvas.width = img.width;
-      canvas.height = img.height;
+canvas.width = img.width;
+canvas.height = img.height;
 
-      ctx.drawImage(img,0,0);
+ctx.drawImage(img,0,0);
 
-      let quality = 0.9;
+let quality = 0.9;
 
-      function compress(){
-        let dataUrl = canvas.toDataURL(format, quality);
-        let sizeKB = (dataUrl.length * 3/4)/1024;
+function compress(){
+let dataUrl = canvas.toDataURL(format, quality);
+let sizeKB = (dataUrl.length * 3/4)/1024;
 
-        if(targetSize && sizeKB > targetSize && quality > 0.1){
-          quality -= 0.05;
-          compress();
-        } else {
+if(targetSize && sizeKB > targetSize && quality > 0.1){
+quality -= 0.05;
+compress();
+} else {
 
-          const link = document.getElementById("downloadLink");
-          link.href = dataUrl;
-          link.download = "compressed." +
-          (format === "image/png" ? "png" : "jpg");
+const link = document.getElementById("downloadLink");
+link.href = dataUrl;
+link.download = "compressed." +
+(format === "image/png" ? "png" : "jpg");
 
-          link.style.display = "block";
+link.style.display = "block";
 
-          document.getElementById("progressText").innerText =
-          "Compression Complete ✅";
-        }
-      }
+document.getElementById("progressText").innerText =
+"Compression Complete ✅";
+}
+}
 
-      compress();
-    }
-  }
+compress();
+}
 
-  reader.readAsDataURL(selectedFile);
+}
+
+reader.readAsDataURL(selectedFile);
 }
 
 </script>
