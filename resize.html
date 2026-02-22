@@ -6,14 +6,15 @@
 
 <title>Resize Image Online in Pixels, Inches, CM & DPI - Free Tool</title>
 
-<meta name="description" content="Resize image online in pixels, inches, cm and set custom DPI. Free professional image resizer tool for exam forms and printing.">
+<meta name="description" content="Resize image online in pixels, inches or cm with custom DPI support. Perfect for SSC forms, passport photos and printing. 100% free image resizer.">
 
 <link rel="canonical" href="https://freephotoresizer.vercel.app/resize.html">
 
 <style>
 body{
-font-family: Arial;
-background:#f2f4f7;
+font-family: Arial, sans-serif;
+background:#f4f6f9;
+margin:0;
 padding:20px;
 }
 .container{
@@ -39,12 +40,39 @@ cursor:pointer;
 button:hover{
 background:#0b5ed7;
 }
+section{
+max-width:800px;
+margin:40px auto;
+}
 </style>
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [{
+   "@type": "Question",
+   "name": "Can I resize image in inches?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Yes, you can resize images in inches and centimeters with DPI support for printing."
+   }
+ },{
+   "@type": "Question",
+   "name": "What DPI should I use for printing?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "For high quality printing, 300 DPI is recommended."
+   }
+ }]
+}
+</script>
+
 </head>
 
 <body>
 
-<h1>Resize Image Online in Pixels, Inches, CM & DPI</h1>
+<h1 style="text-align:center;">Resize Image Online in Pixels, Inches, CM & DPI</h1>
 
 <div class="container">
 
@@ -66,61 +94,54 @@ background:#0b5ed7;
 <label>DPI (For Print Use)</label>
 <input type="number" id="dpi" value="96">
 
-<label>
-<input type="checkbox" id="ratio" checked>
-Maintain Aspect Ratio
-</label>
-
 <button onclick="resizeImage()">Resize Image</button>
 
 <a id="downloadLink" style="display:none;">
 <button>Download Image</button>
 </a>
 
-<p>
-This professional image resizer allows resizing in pixels, inches, centimeters and custom DPI. 
-Perfect for exam forms, passport photos and printing.
-</p>
-
-<p>
-Try also:
-<a href="image.html">Image Compressor</a> |
-<a href="signature.html">Signature Resize Tool</a>
-</p>
-
 </div>
+
+<section>
+<h2>About Image Resizer Tool</h2>
+<p>
+This free image resizer allows you to resize images in pixels, inches and centimeters. 
+You can also set custom DPI for printing purposes. It is perfect for SSC forms, 
+banking exams, passport photos and other government applications.
+</p>
+</section>
+
+<section>
+<h2>Frequently Asked Questions</h2>
+
+<h3>Can I resize image in inches?</h3>
+<p>Yes, you can resize images in inches or centimeters with custom DPI.</p>
+
+<h3>What DPI should I use?</h3>
+<p>For printing, 300 DPI is recommended for best quality results.</p>
+
+</section>
+
+<section style="text-align:center;">
+<p>
+Try other tools:
+<a href="image.html">Image Compressor</a> |
+<a href="signature.html">Signature Tool</a> |
+<a href="image-to-pdf.html">Image to PDF</a>
+</p>
+</section>
 
 <script>
 
 let selectedFile;
-let originalWidth, originalHeight;
 
 document.getElementById("upload").addEventListener("change", function(e){
 selectedFile = e.target.files[0];
-
-let reader = new FileReader();
-reader.onload = function(event){
-let img = new Image();
-img.src = event.target.result;
-
-img.onload = function(){
-originalWidth = img.width;
-originalHeight = img.height;
-};
-};
-reader.readAsDataURL(selectedFile);
 });
 
 function convertToPixels(value, unit, dpi){
-
-if(unit === "inch"){
-return value * dpi;
-}
-
-if(unit === "cm"){
-return (value * dpi) / 2.54;
-}
-
+if(unit === "inch") return value * dpi;
+if(unit === "cm") return (value * dpi) / 2.54;
 return value;
 }
 
@@ -135,19 +156,9 @@ let width = document.getElementById("width").value;
 let height = document.getElementById("height").value;
 let unit = document.getElementById("unit").value;
 let dpi = document.getElementById("dpi").value || 96;
-let maintainRatio = document.getElementById("ratio").checked;
 
 width = convertToPixels(width, unit, dpi);
 height = convertToPixels(height, unit, dpi);
-
-if(maintainRatio){
-if(width && !height){
-height = (width/originalWidth) * originalHeight;
-}
-if(height && !width){
-width = (height/originalHeight) * originalWidth;
-}
-}
 
 let reader = new FileReader();
 
@@ -183,4 +194,4 @@ reader.readAsDataURL(selectedFile);
 </script>
 
 </body>
-</html>
+  </html>
