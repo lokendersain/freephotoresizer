@@ -4,47 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compress Image in KB Online for SSC, Banking & Railway Forms</title>
+<title>Compress Image in KB Online - Free Image Compressor</title>
 
-<meta name="description" content="Free online image compressor to reduce image size in KB for SSC, Banking and Railway exam forms. Compress image instantly without losing quality.">
-
-<meta name="keywords" content="compress image in kb, reduce image size for ssc form, image compressor online free, resize photo for banking exam">
+<meta name="description" content="Compress image in KB online for free. Reduce image size without losing quality. Perfect for SSC, Banking and exam form uploads.">
 
 <link rel="canonical" href="https://freephotoresizer.vercel.app/image.html">
 
 <style>
 body{
 font-family: Arial, sans-serif;
-background:#f2f4f7;
+background:#f4f6f9;
 margin:0;
 padding:20px;
 }
-
 .container{
-max-width:450px;
+max-width:520px;
 margin:auto;
 background:white;
 padding:20px;
 border-radius:10px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
 }
-
-h1{
-text-align:center;
-}
-
-h2{
-text-align:center;
-}
-
-input, select, button{
+input,button{
 width:100%;
 padding:10px;
-margin:10px 0;
-border-radius:6px;
-border:1px solid #ccc;
+margin:8px 0;
 }
-
 button{
 background:#0d6efd;
 color:white;
@@ -52,78 +37,92 @@ border:none;
 font-weight:bold;
 cursor:pointer;
 }
-
 button:hover{
 background:#0b5ed7;
 }
-
 img{
 max-width:100%;
 margin-top:10px;
-border-radius:6px;
 }
-
-.progress{
-color:green;
-font-weight:bold;
-margin-top:10px;
-text-align:center;
-}
-
-footer{
-text-align:center;
-margin-top:30px;
-font-size:14px;
-color:#555;
+section{
+max-width:800px;
+margin:40px auto;
 }
 </style>
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [{
+   "@type": "Question",
+   "name": "How to compress image in KB?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Upload your image, enter target size in KB and click compress. Download instantly."
+   }
+ },{
+   "@type": "Question",
+   "name": "Does compression reduce quality?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "You can control compression level. The tool maintains best possible quality."
+   }
+ }]
+}
+</script>
 
 </head>
 
 <body>
 
-<h1>Compress Image in KB for SSC & Banking Forms</h1>
+<h1 style="text-align:center;">Compress Image in KB Online</h1>
 
 <div class="container">
-
-<h2>Simple Image Compressor</h2>
 
 <input type="file" id="upload" accept="image/*">
 
 <img id="preview" style="display:none;">
 
-<div class="progress" id="progressText"></div>
-
 <label>Target Size (KB)</label>
 <input type="number" id="targetSize" placeholder="Enter size e.g. 50">
 
-<label>Format</label>
-<select id="format">
-<option value="image/jpeg">JPG</option>
-<option value="image/png">PNG</option>
-</select>
-
-<button onclick="compressImage()">Compress</button>
+<button onclick="compressImage()">Compress Image</button>
 
 <a id="downloadLink" style="display:none;">
 <button>Download Image</button>
 </a>
 
-<p>
-This free online image compressor helps you reduce image size in KB for SSC, Banking and Railway exam forms. Upload your image, set the required size and download instantly.
-</p>
-
-<p>
-Also try our 
-<a href="resize.html">Image Resizer</a> and 
-<a href="signature.html">Signature Resize Tool</a>.
-</p>
-
 </div>
 
-<footer>
-© 2026 FreePhotoResizer | Made for Competitive Exam Aspirants
-</footer>
+<section>
+<h2>About Image Compressor</h2>
+<p>
+This free image compressor helps you reduce image file size in KB without losing quality. 
+It is ideal for SSC forms, banking exams, railway applications and other government uploads.
+Simply upload your image, set the target size and download instantly.
+</p>
+</section>
+
+<section>
+<h2>Frequently Asked Questions</h2>
+
+<h3>How to compress image in KB?</h3>
+<p>Upload image, enter target size and click compress.</p>
+
+<h3>Is this tool free?</h3>
+<p>Yes, it is 100% free and works directly in your browser.</p>
+
+</section>
+
+<section style="text-align:center;">
+<p>
+Try other tools:
+<a href="resize.html">Image Resizer</a> |
+<a href="signature.html">Signature Tool</a> |
+<a href="image-to-pdf.html">Image to PDF</a>
+</p>
+</section>
 
 <script>
 
@@ -132,17 +131,12 @@ let selectedFile;
 document.getElementById("upload").addEventListener("change", function(e){
 selectedFile = e.target.files[0];
 
-if(selectedFile){
 let reader = new FileReader();
 reader.onload = function(event){
-let preview = document.getElementById("preview");
-preview.src = event.target.result;
-preview.style.display = "block";
-document.getElementById("progressText").innerText = "";
-document.getElementById("downloadLink").style.display = "none";
-}
+document.getElementById("preview").src = event.target.result;
+document.getElementById("preview").style.display = "block";
+};
 reader.readAsDataURL(selectedFile);
-}
 });
 
 function compressImage(){
@@ -152,10 +146,7 @@ alert("Upload image first");
 return;
 }
 
-document.getElementById("progressText").innerText = "Compressing...";
-
 let targetSize = document.getElementById("targetSize").value;
-let format = document.getElementById("format").value;
 
 let reader = new FileReader();
 
@@ -177,7 +168,7 @@ ctx.drawImage(img,0,0);
 let quality = 0.9;
 
 function compress(){
-let dataUrl = canvas.toDataURL(format, quality);
+let dataUrl = canvas.toDataURL("image/jpeg", quality);
 let sizeKB = (dataUrl.length * 3/4)/1024;
 
 if(targetSize && sizeKB > targetSize && quality > 0.1){
@@ -187,22 +178,20 @@ compress();
 
 const link = document.getElementById("downloadLink");
 link.href = dataUrl;
-link.download = "compressed." +
-(format === "image/png" ? "png" : "jpg");
-
+link.download = "compressed.jpg";
 link.style.display = "block";
 
-document.getElementById("progressText").innerText =
-"Compression Complete ✅";
 }
 }
 
 compress();
-}
 
 }
+
+};
 
 reader.readAsDataURL(selectedFile);
+
 }
 
 </script>
