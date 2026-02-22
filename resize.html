@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Resize Image Online in Pixels, Inches & CM - Free Tool</title>
+<title>Resize Image Online in Pixels, Inches, CM & DPI - Free Tool</title>
 
-<meta name="description" content="Resize image online in pixels, inches or cm. Free image resizer tool for SSC, Banking and exam forms. Change width and height instantly.">
+<meta name="description" content="Resize image online in pixels, inches, cm and set custom DPI. Free professional image resizer tool for exam forms and printing.">
 
 <link rel="canonical" href="https://freephotoresizer.vercel.app/resize.html">
 
@@ -17,12 +17,12 @@ background:#f2f4f7;
 padding:20px;
 }
 .container{
-max-width:500px;
+max-width:520px;
 margin:auto;
 background:white;
 padding:20px;
 border-radius:10px;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
 }
 input,select,button{
 width:100%;
@@ -34,13 +34,17 @@ background:#0d6efd;
 color:white;
 border:none;
 font-weight:bold;
+cursor:pointer;
+}
+button:hover{
+background:#0b5ed7;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Resize Image Online in Pixels, Inches & CM</h1>
+<h1>Resize Image Online in Pixels, Inches, CM & DPI</h1>
 
 <div class="container">
 
@@ -59,6 +63,9 @@ font-weight:bold;
 <option value="cm">Centimeter</option>
 </select>
 
+<label>DPI (For Print Use)</label>
+<input type="number" id="dpi" value="96">
+
 <label>
 <input type="checkbox" id="ratio" checked>
 Maintain Aspect Ratio
@@ -71,14 +78,14 @@ Maintain Aspect Ratio
 </a>
 
 <p>
-This free image resizer allows you to resize images in pixels, inches or centimeters. 
-Perfect for SSC, Banking, Railway and other government exam forms.
+This professional image resizer allows resizing in pixels, inches, centimeters and custom DPI. 
+Perfect for exam forms, passport photos and printing.
 </p>
 
 <p>
-Also try our 
-<a href="image.html">Image Compressor</a> and 
-<a href="signature.html">Signature Resize Tool</a>.
+Try also:
+<a href="image.html">Image Compressor</a> |
+<a href="signature.html">Signature Resize Tool</a>
 </p>
 
 </div>
@@ -104,13 +111,16 @@ originalHeight = img.height;
 reader.readAsDataURL(selectedFile);
 });
 
-function convertToPixels(value, unit){
+function convertToPixels(value, unit, dpi){
+
 if(unit === "inch"){
-return value * 96;
+return value * dpi;
 }
+
 if(unit === "cm"){
-return value * 37.8;
+return (value * dpi) / 2.54;
 }
+
 return value;
 }
 
@@ -124,10 +134,11 @@ return;
 let width = document.getElementById("width").value;
 let height = document.getElementById("height").value;
 let unit = document.getElementById("unit").value;
+let dpi = document.getElementById("dpi").value || 96;
 let maintainRatio = document.getElementById("ratio").checked;
 
-width = convertToPixels(width, unit);
-height = convertToPixels(height, unit);
+width = convertToPixels(width, unit, dpi);
+height = convertToPixels(height, unit, dpi);
 
 if(maintainRatio){
 if(width && !height){
@@ -172,4 +183,4 @@ reader.readAsDataURL(selectedFile);
 </script>
 
 </body>
-  </html>
+</html>
