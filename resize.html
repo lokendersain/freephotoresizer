@@ -1,106 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resize Image Tool</title>
+
+<title>Resize Image Online in Pixels, Inches & CM - Free Tool</title>
+
+<meta name="description" content="Resize image online in pixels, inches or cm. Free image resizer tool for SSC, Banking and exam forms. Change width and height instantly.">
+
+<link rel="canonical" href="https://freephotoresizer.vercel.app/resize.html">
 
 <style>
 body{
-  font-family: Arial;
-  background:#f2f4f7;
-  padding:20px;
+font-family: Arial;
+background:#f2f4f7;
+padding:20px;
 }
 .container{
-  max-width:400px;
-  margin:auto;
-  background:white;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+max-width:500px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
-input,button{
-  width:100%;
-  padding:10px;
-  margin:10px 0;
+input,select,button{
+width:100%;
+padding:10px;
+margin:8px 0;
 }
 button{
-  background:#0d6efd;
-  color:white;
-  border:none;
-}
-img{
-  max-width:100%;
-  margin-top:10px;
+background:#0d6efd;
+color:white;
+border:none;
+font-weight:bold;
 }
 </style>
 </head>
 
 <body>
 
+<h1>Resize Image Online in Pixels, Inches & CM</h1>
+
 <div class="container">
-<h2>Resize Image</h2>
 
 <input type="file" id="upload" accept="image/*">
+
+<label>Width</label>
 <input type="number" id="width" placeholder="Enter Width">
+
+<label>Height</label>
 <input type="number" id="height" placeholder="Enter Height">
 
-<button onclick="resizeImage()">Resize</button>
+<label>Select Unit</label>
+<select id="unit">
+<option value="px">Pixels</option>
+<option value="inch">Inches</option>
+<option value="cm">Centimeter</option>
+</select>
+
+<label>
+<input type="checkbox" id="ratio" checked>
+Maintain Aspect Ratio
+</label>
+
+<button onclick="resizeImage()">Resize Image</button>
 
 <a id="downloadLink" style="display:none;">
 <button>Download Image</button>
 </a>
+
+<p>
+This free image resizer allows you to resize images in pixels, inches or centimeters. 
+Perfect for SSC, Banking, Railway and other government exam forms.
+</p>
+
+<p>
+Also try our 
+<a href="image.html">Image Compressor</a> and 
+<a href="signature.html">Signature Resize Tool</a>.
+</p>
 
 </div>
 
 <script>
 
 let selectedFile;
+let originalWidth, originalHeight;
 
 document.getElementById("upload").addEventListener("change", function(e){
-  selectedFile = e.target.files[0];
+selectedFile = e.target.files[0];
+
+let reader = new FileReader();
+reader.onload = function(event){
+let img = new Image();
+img.src = event.target.result;
+
+img.onload = function(){
+originalWidth = img.width;
+originalHeight = img.height;
+};
+};
+reader.readAsDataURL(selectedFile);
 });
+
+function convertToPixels(value, unit){
+if(unit === "inch"){
+return value * 96;
+}
+if(unit === "cm"){
+return value * 37.8;
+}
+return value;
+}
 
 function resizeImage(){
 
-  if(!selectedFile){
-    alert("Upload image first");
-    return;
-  }
+if(!selectedFile){
+alert("Upload image first");
+return;
+}
 
-  let width = document.getElementById("width").value;
-  let height = document.getElementById("height").value;
+let width = document.getElementById("width").value;
+let height = document.getElementById("height").value;
+let unit = document.getElementById("unit").value;
+let maintainRatio = document.getElementById("ratio").checked;
 
-  let reader = new FileReader();
+width = convertToPixels(width, unit);
+height = convertToPixels(height, unit);
 
-  reader.onload = function(event){
+if(maintainRatio){
+if(width && !height){
+height = (width/originalWidth) * originalHeight;
+}
+if(height && !width){
+width = (height/originalHeight) * originalWidth;
+}
+}
 
-    let img = new Image();
-    img.src = event.target.result;
+let reader = new FileReader();
 
-    img.onload = function(){
+reader.onload = function(event){
 
-      let canvas = document.createElement("canvas");
-      let ctx = canvas.getContext("2d");
+let img = new Image();
+img.src = event.target.result;
 
-      canvas.width = width;
-      canvas.height = height;
+img.onload = function(){
 
-      ctx.drawImage(img,0,0,width,height);
+let canvas = document.createElement("canvas");
+let ctx = canvas.getContext("2d");
 
-      let dataUrl = canvas.toDataURL("image/jpeg",0.9);
+canvas.width = width;
+canvas.height = height;
 
-      const link = document.getElementById("downloadLink");
-      link.href = dataUrl;
-      link.download = "resized.jpg";
-      link.style.display = "block";
-    }
-  }
+ctx.drawImage(img,0,0,width,height);
 
-  reader.readAsDataURL(selectedFile);
+let dataUrl = canvas.toDataURL("image/jpeg",0.9);
+
+const link = document.getElementById("downloadLink");
+link.href = dataUrl;
+link.download = "resized.jpg";
+link.style.display = "block";
+
+}
+};
+
+reader.readAsDataURL(selectedFile);
+
 }
 
 </script>
 
 </body>
-</html>
+  </html>
