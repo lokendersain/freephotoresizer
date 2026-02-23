@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Compress Image to 20KB or 50KB Online Free - Photo Compressor Tool</title>
+
+<meta name="description" content="Compress image to 20KB or 50KB online free. Reduce photo size instantly for SSC, banking and government exam forms. No watermark and secure tool.">
+
+<link rel="canonical" href="https://freephotoresizer.vercel.app/compress-image-to-20kb-50kb.html">
+
+<style>
+body{font-family:Arial;background:#f4f6f9;margin:0;padding:20px;}
+.container{max-width:550px;margin:auto;background:white;padding:25px;border-radius:12px;box-shadow:0 4px 15px rgba(0,0,0,0.1);text-align:center;}
+input,button{width:100%;padding:10px;margin:8px 0;}
+button{background:#0d6efd;color:white;border:none;font-weight:bold;cursor:pointer;border-radius:6px;}
+button:hover{background:#0b5ed7;}
+img{max-width:100%;margin-top:10px;display:none;}
+#loading{display:none;color:#0d6efd;font-weight:bold;margin-top:10px;}
+.btn-group button{width:48%;display:inline-block;}
+section{max-width:900px;margin:40px auto;}
+a{color:#0d6efd;text-decoration:none;font-weight:bold;}
+</style>
+
+<script type="application/ld+json">
+{
+ "@context":"https://schema.org",
+ "@type":"FAQPage",
+ "mainEntity":[
+ {
+   "@type":"Question",
+   "name":"How to compress image to 20KB?",
+   "acceptedAnswer":{"@type":"Answer","text":"Upload your image and click Compress to 20KB. The tool automatically reduces size close to 20KB."}
+ },
+ {
+   "@type":"Question",
+   "name":"How to compress image to 50KB?",
+   "acceptedAnswer":{"@type":"Answer","text":"Upload your image and click Compress to 50KB to reduce file size instantly."}
+ },
+ {
+   "@type":"Question",
+   "name":"Is this compressor watermark free?",
+   "acceptedAnswer":{"@type":"Answer","text":"Yes, this tool compresses images without adding any watermark."}
+ }
+ ]
+}
+</script>
+
+</head>
+<body>
+
+<h1 style="text-align:center;">Compress Image to 20KB or 50KB Online Free</h1>
+
+<div class="container">
+
+<input type="file" id="upload" accept="image/*">
+<img id="preview">
+
+<div class="btn-group">
+<button onclick="compressImage(20)">Compress to 20KB</button>
+<button onclick="compressImage(50)">Compress to 50KB</button>
+</div>
+
+<div id="loading">Processing... Please wait</div>
+
+<a id="downloadLink" style="display:none;"><button>Download Image</button></a>
+
+</div>
+
+<section>
+<h2>Free 20KB and 50KB Photo Compressor for Exam Forms</h2>
+
+<p>
+This free online image compressor allows you to compress image to 20KB or 50KB instantly without losing clarity. 
+Many SSC, banking, railway and government exam forms require photo size between 20KB and 50KB. 
+Uploading incorrect file size may lead to rejection.
+</p>
+
+<p>
+With this tool, you can easily reduce image size to 20KB for SSC forms or 50KB for banking applications. 
+The entire compression process works inside your browser, which means your image is secure and no watermark is added.
+</p>
+
+<p>
+Unlike other tools, this compressor is completely free, fast and watermark free. 
+Simply upload your photo, choose target size (20KB or 50KB) and download instantly.
+</p>
+
+</section>
+
+<section>
+<h2>Frequently Asked Questions</h2>
+
+<h3>How to compress image to 20KB?</h3>
+<p>Upload image and click Compress to 20KB.</p>
+
+<h3>How to compress image to 50KB?</h3>
+<p>Upload image and click Compress to 50KB.</p>
+
+<h3>Is this tool free and without watermark?</h3>
+<p>Yes, it is 100% free and does not add any watermark.</p>
+
+</section>
+
+<section style="text-align:center;">
+<p>
+Related Tools:
+<a href="image.html">General Image Compressor</a> |
+<a href="resize.html">Image Resizer</a> |
+<a href="signature.html">Signature Resizer</a> |
+<a href="image-to-pdf.html">Image to PDF</a>
+</p>
+</section>
+
+<script>
+let selectedFile;
+
+document.getElementById("upload").addEventListener("change", function(e){
+selectedFile = e.target.files[0];
+let reader = new FileReader();
+reader.onload = function(event){
+let preview=document.getElementById("preview");
+preview.src=event.target.result;
+preview.style.display="block";
+};
+reader.readAsDataURL(selectedFile);
+});
+
+function compressImage(targetKB){
+if(!selectedFile){alert("Upload image first");return;}
+document.getElementById("loading").style.display="block";
+
+let reader=new FileReader();
+reader.onload=function(event){
+let img=new Image();
+img.src=event.target.result;
+
+img.onload=function(){
+let canvas=document.createElement("canvas");
+let ctx=canvas.getContext("2d");
+canvas.width=img.width;
+canvas.height=img.height;
+ctx.drawImage(img,0,0);
+
+let quality=0.9;
+function compress(){
+let dataUrl=canvas.toDataURL("image/jpeg",quality);
+let sizeKB=(dataUrl.length*3/4)/1024;
+
+if(sizeKB>targetKB && quality>0.1){
+quality-=0.05;
+compress();
+}else{
+document.getElementById("loading").style.display="none";
+let link=document.getElementById("downloadLink");
+link.href=dataUrl;
+link.download=targetKB+"kb-image.jpg";
+link.style.display="block";
+}
+}
+compress();
+};
+};
+reader.readAsDataURL(selectedFile);
+}
+</script>
+
+</body>
+  </html>
