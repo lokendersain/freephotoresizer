@@ -1,55 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Signature Resize Tool</title>
+
+<title>Signature Resize in 20KB, 50KB Online - SSC, Banking, NTPC</title>
+
+<meta name="description" content="Resize signature in 20KB or 50KB online for SSC, Banking, NTPC and other exam forms. Free signature resizer tool without losing quality.">
+
+<link rel="canonical" href="https://freephotoresizer.vercel.app/signature.html">
 
 <style>
 body{
-  font-family: Arial;
-  background:#f2f4f7;
-  padding:20px;
+font-family: Arial, sans-serif;
+background:#f4f6f9;
+margin:0;
+padding:20px;
 }
 .container{
-  max-width:400px;
-  margin:auto;
-  background:white;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+max-width:520px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+text-align:center;
 }
 input,button{
-  width:100%;
-  padding:10px;
-  margin:10px 0;
+width:100%;
+padding:10px;
+margin:8px 0;
 }
 button{
-  background:#0d6efd;
-  color:white;
-  border:none;
+background:#0d6efd;
+color:white;
+border:none;
+font-weight:bold;
+cursor:pointer;
 }
-.progress{
-  color:green;
-  font-weight:bold;
-  text-align:center;
+button:hover{
+background:#0b5ed7;
+}
+img{
+max-width:100%;
+margin-top:10px;
+display:none;
+}
+#loading{
+display:none;
+color:#0d6efd;
+font-weight:bold;
+margin-top:10px;
+}
+section{
+max-width:800px;
+margin:40px auto;
 }
 </style>
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [{
+   "@type": "Question",
+   "name": "How to resize signature in 20KB?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Upload your signature image, enter 20KB as target size and download instantly."
+   }
+ },{
+   "@type": "Question",
+   "name": "Can I resize signature for SSC and Banking exams?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Yes, this tool is perfect for SSC, Banking, NTPC and other government exam forms."
+   }
+ }]
+}
+</script>
+
 </head>
 
 <body>
 
+<h1 style="text-align:center;">Signature Resize in 20KB, 50KB for SSC, Banking & NTPC</h1>
+
 <div class="container">
-<h2>Signature Resize Tool</h2>
 
 <input type="file" id="upload" accept="image/*">
 
+<img id="preview">
+
 <label>Target Size (KB)</label>
-<input type="number" id="targetSize" placeholder="Enter size e.g. 10">
+<input type="number" id="targetSize" placeholder="Enter 20 or 50">
 
-<button onclick="compressSignature()">Compress</button>
+<button onclick="compressImage()">Resize Signature</button>
 
-<div class="progress" id="progressText"></div>
+<div id="loading">Processing... Please wait</div>
 
 <a id="downloadLink" style="display:none;">
 <button>Download Signature</button>
@@ -57,73 +105,126 @@ button{
 
 </div>
 
+<section>
+<h2>Resize Signature Online for SSC, Banking & NTPC Exams</h2>
+
+<p>
+Our free online signature resizer allows you to resize signature in 20KB, 50KB or any custom size required for SSC, Banking, Railway, NTPC and other government exam forms. 
+Many exam portals require signature size between 20KB to 50KB, and uploading incorrect file size may lead to form rejection.
+</p>
+
+<p>
+With this tool, you can quickly compress and adjust your signature file size without losing clarity or readability. 
+Simply upload your signature image, enter your required target size in KB, and download the resized signature instantly. 
+The entire process works inside your browser, which means your signature is not uploaded to any server.
+</p>
+
+<p>
+This signature resizer is specially optimized for competitive exam aspirants who need fast, accurate and reliable resizing.
+Whether you need to resize signature to 20KB for SSC or 50KB for banking exams, our tool ensures smooth and error-free results.
+</p>
+
+</section>
+
+<section>
+<h2>Frequently Asked Questions</h2>
+
+<h3>How to resize signature in 20KB?</h3>
+<p>Upload your signature, enter 20KB and click resize.</p>
+
+<h3>Can I resize signature to 50KB?</h3>
+<p>Yes, you can enter 50KB or any custom size.</p>
+
+<h3>Is this tool suitable for SSC, Banking and NTPC?</h3>
+<p>Yes, this tool is specially optimized for government exam form requirements.</p>
+
+</section>
+
+<section style="text-align:center;">
+<p>
+Try other tools:
+<a href="image.html">Image Compressor</a> |
+<a href="resize.html">Image Resizer</a> |
+<a href="image-to-pdf.html">Image to PDF</a>
+</p>
+</section>
+
 <script>
 
 let selectedFile;
 
 document.getElementById("upload").addEventListener("change", function(e){
-  selectedFile = e.target.files[0];
-  document.getElementById("progressText").innerText = "";
-  document.getElementById("downloadLink").style.display = "none";
+selectedFile = e.target.files[0];
+
+let reader = new FileReader();
+reader.onload = function(event){
+const preview = document.getElementById("preview");
+preview.src = event.target.result;
+preview.style.display = "block";
+};
+reader.readAsDataURL(selectedFile);
 });
 
-function compressSignature(){
+function compressImage(){
 
-  if(!selectedFile){
-    alert("Upload signature first");
-    return;
-  }
+if(!selectedFile){
+alert("Upload signature first");
+return;
+}
 
-  document.getElementById("progressText").innerText = "Compressing...";
+document.getElementById("loading").style.display = "block";
 
-  let targetSize = document.getElementById("targetSize").value;
+let targetSize = document.getElementById("targetSize").value;
 
-  let reader = new FileReader();
+let reader = new FileReader();
 
-  reader.onload = function(event){
+reader.onload = function(event){
 
-    let img = new Image();
-    img.src = event.target.result;
+let img = new Image();
+img.src = event.target.result;
 
-    img.onload = function(){
+img.onload = function(){
 
-      let canvas = document.createElement("canvas");
-      let ctx = canvas.getContext("2d");
+let canvas = document.createElement("canvas");
+let ctx = canvas.getContext("2d");
 
-      canvas.width = img.width;
-      canvas.height = img.height;
+canvas.width = img.width;
+canvas.height = img.height;
 
-      ctx.drawImage(img,0,0);
+ctx.drawImage(img,0,0);
 
-      let quality = 0.9;
+let quality = 0.9;
 
-      function compress(){
-        let dataUrl = canvas.toDataURL("image/jpeg", quality);
-        let sizeKB = (dataUrl.length * 3/4)/1024;
+function compress(){
+let dataUrl = canvas.toDataURL("image/jpeg", quality);
+let sizeKB = (dataUrl.length * 3/4)/1024;
 
-        if(targetSize && sizeKB > targetSize && quality > 0.1){
-          quality -= 0.05;
-          compress();
-        } else {
+if(targetSize && sizeKB > targetSize && quality > 0.1){
+quality -= 0.05;
+compress();
+} else {
 
-          const link = document.getElementById("downloadLink");
-          link.href = dataUrl;
-          link.download = "signature.jpg";
-          link.style.display = "block";
+document.getElementById("loading").style.display = "none";
 
-          document.getElementById("progressText").innerText =
-          "Compression Complete ✅";
-        }
-      }
+const link = document.getElementById("downloadLink");
+link.href = dataUrl;
+link.download = "signature.jpg";
+link.style.display = "block";
 
-      compress();
-    }
-  }
+}
+}
 
-  reader.readAsDataURL(selectedFile);
+compress();
+
+}
+
+};
+
+reader.readAsDataURL(selectedFile);
+
 }
 
 </script>
 
 </body>
-</html>
+  </html>
