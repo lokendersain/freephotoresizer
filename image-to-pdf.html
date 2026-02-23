@@ -1,128 +1,209 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Convert Images to PDF Online Free - Multiple Image to PDF Tool</title>
 
-<meta name="description" content="Convert multiple images to a single PDF file online for free. Fast, secure and easy image to PDF converter tool.">
+<title>Convert Images to PDF Instantly - Free Image to PDF Converter (No Watermark)</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<meta name="description" content="Convert images to PDF instantly with our free image to PDF converter. Merge up to 20 images into one PDF file with no watermark. 100% free and secure.">
+
+<link rel="canonical" href="https://freephotoresizer.vercel.app/image-to-pdf.html">
 
 <style>
 body{
-  font-family: Arial;
-  background:#f2f4f7;
-  padding:20px;
+font-family: Arial, sans-serif;
+background:#f4f6f9;
+margin:0;
+padding:20px;
 }
 .container{
-  max-width:400px;
-  margin:auto;
-  background:white;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-h2{
-  text-align:center;
+max-width:600px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+text-align:center;
 }
 input,button{
-  width:100%;
-  padding:10px;
-  margin:10px 0;
+width:100%;
+padding:10px;
+margin:8px 0;
 }
 button{
-  background:#0d6efd;
-  color:white;
-  border:none;
-  font-weight:bold;
+background:#0d6efd;
+color:white;
+border:none;
+font-weight:bold;
+cursor:pointer;
 }
-.progress{
-  text-align:center;
-  color:green;
-  font-weight:bold;
+button:hover{
+background:#0b5ed7;
 }
-.info{
-  font-size:13px;
-  text-align:center;
-  margin-top:10px;
-  color:#555;
+#loading{
+display:none;
+color:#0d6efd;
+font-weight:bold;
+}
+section{
+max-width:850px;
+margin:40px auto;
 }
 </style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [{
+   "@type": "Question",
+   "name": "Is this image to PDF converter watermark free?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Yes, this free image to PDF converter creates PDF files without any watermark."
+   }
+ },{
+   "@type": "Question",
+   "name": "How many images can I convert into one PDF?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "You can merge up to 20 images into a single PDF file."
+   }
+ },{
+   "@type": "Question",
+   "name": "How to convert images to PDF instantly?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "Upload your images, click convert and download your PDF instantly without watermark."
+   }
+ }]
+}
+</script>
+
 </head>
 
 <body>
 
+<h1 style="text-align:center;">Convert Images to PDF Instantly (No Watermark)</h1>
+
 <div class="container">
-<h2>Image to PDF Converter</h2>
 
 <input type="file" id="upload" accept="image/*" multiple>
 
-<button onclick="convertToPDF()">Convert to PDF</button>
+<p>Maximum 20 images allowed</p>
 
-<div class="progress" id="progressText"></div>
+<button onclick="createPDF()">Convert to PDF</button>
 
-<div class="info">
-You can select multiple images. Each image will be added as a new page in the PDF.
-</div>
+<div id="loading">Creating PDF... Please wait</div>
 
 </div>
+
+<section>
+<h2>Free Image to PDF Converter Without Watermark</h2>
+
+<p>
+Our free image to PDF converter allows you to convert images to PDF instantly without adding any watermark. 
+You can merge up to 20 images into one single PDF file securely and quickly.
+</p>
+
+<p>
+Unlike many online tools, this image to PDF converter is completely watermark free. 
+Your PDF files will not contain any branding, logos or hidden marks. 
+This makes it perfect for official documents, exam submissions, job applications and office use.
+</p>
+
+<p>
+Simply upload JPG or PNG images, click convert and download your PDF instantly. 
+The entire process works directly inside your browser, ensuring privacy and fast performance.
+</p>
+
+</section>
+
+<section>
+<h2>Frequently Asked Questions</h2>
+
+<h3>Is this image to PDF converter watermark free?</h3>
+<p>Yes, this tool generates PDF files without any watermark or branding.</p>
+
+<h3>How many images can I merge?</h3>
+<p>You can merge up to 20 images into a single PDF document.</p>
+
+<h3>Is this tool free to use?</h3>
+<p>Yes, it is completely free and does not require registration.</p>
+
+<h3>Does it work instantly?</h3>
+<p>Yes, you can convert images to PDF instantly without uploading files to any server.</p>
+
+</section>
+
+<section style="text-align:center;">
+<p>
+Try other tools:
+<a href="image.html">Image Compressor</a> |
+<a href="resize.html">Image Resizer</a> |
+<a href="signature.html">Signature Tool</a>
+</p>
+</section>
 
 <script>
 
-let selectedFiles = [];
+async function createPDF(){
 
-document.getElementById("upload").addEventListener("change", function(e){
-  selectedFiles = e.target.files;
-  document.getElementById("progressText").innerText = "";
+const { jsPDF } = window.jspdf;
+let files = document.getElementById("upload").files;
+
+if(files.length === 0){
+alert("Upload images first");
+return;
+}
+
+if(files.length > 20){
+alert("You can upload maximum 20 images");
+return;
+}
+
+document.getElementById("loading").style.display = "block";
+
+let pdf = new jsPDF();
+
+for(let i=0; i<files.length; i++){
+
+let reader = new FileReader();
+
+await new Promise(resolve => {
+
+reader.onload = function(e){
+
+let img = new Image();
+img.src = e.target.result;
+
+img.onload = function(){
+
+let width = pdf.internal.pageSize.getWidth();
+let height = (img.height * width) / img.width;
+
+if(i > 0) pdf.addPage();
+
+pdf.addImage(img, 'JPEG', 0, 0, width, height);
+
+resolve();
+};
+
+};
+
+reader.readAsDataURL(files[i]);
+
 });
 
-async function convertToPDF(){
+}
 
-  if(selectedFiles.length === 0){
-    alert("Upload at least one image");
-    return;
-  }
+document.getElementById("loading").style.display = "none";
 
-  document.getElementById("progressText").innerText = "Creating PDF...";
+pdf.save("converted.pdf");
 
-  const { jsPDF } = window.jspdf;
-  const pdf = new jsPDF();
-
-  for(let i = 0; i < selectedFiles.length; i++){
-
-    const file = selectedFiles[i];
-    const reader = new FileReader();
-
-    await new Promise((resolve) => {
-
-      reader.onload = function(event){
-
-        let img = new Image();
-        img.src = event.target.result;
-
-        img.onload = function(){
-
-          const pdfWidth = pdf.internal.pageSize.getWidth();
-          const pdfHeight = (img.height * pdfWidth) / img.width;
-
-          if(i !== 0){
-            pdf.addPage();
-          }
-
-          pdf.addImage(img, "JPEG", 0, 0, pdfWidth, pdfHeight);
-          resolve();
-        }
-      };
-
-      reader.readAsDataURL(file);
-    });
-  }
-
-  pdf.save("images.pdf");
-
-  document.getElementById("progressText").innerText =
-  "PDF Downloaded Successfully ✅";
 }
 
 </script>
