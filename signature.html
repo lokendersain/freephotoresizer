@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Signature Resize in 20KB, 50KB Online - SSC, Banking, NTPC</title>
+<title>Resize Signature to 20KB, 30KB, 40KB, 50KB Online - SSC, Banking</title>
 
-<meta name="description" content="Resize signature in 20KB or 50KB online for SSC, Banking, NTPC and other exam forms. Free signature resizer tool without losing quality.">
+<meta name="description" content="Resize signature to 20KB, 30KB, 40KB or 50KB online for SSC, Banking and NTPC exams. Free signature resizer tool without watermark. Fast and accurate results.">
 
 <link rel="canonical" href="https://freephotoresizer.vercel.app/signature.html">
 
@@ -56,27 +56,43 @@ section{
 max-width:800px;
 margin:40px auto;
 }
+.preset-buttons button{
+width:48%;
+margin:5px 1%;
+background:#198754;
+}
 </style>
 
 <script type="application/ld+json">
 {
  "@context": "https://schema.org",
  "@type": "FAQPage",
- "mainEntity": [{
+ "mainEntity": [
+ {
    "@type": "Question",
-   "name": "How to resize signature in 20KB?",
+   "name": "How to resize signature to 20KB or 50KB?",
    "acceptedAnswer": {
      "@type": "Answer",
-     "text": "Upload your signature image, enter 20KB as target size and download instantly."
+     "text": "Upload your signature, select 20KB, 30KB, 40KB or 50KB or enter custom size and download instantly."
    }
- },{
+ },
+ {
    "@type": "Question",
-   "name": "Can I resize signature for SSC and Banking exams?",
+   "name": "Is this tool suitable for SSC, Banking and NTPC exams?",
    "acceptedAnswer": {
      "@type": "Answer",
-     "text": "Yes, this tool is perfect for SSC, Banking, NTPC and other government exam forms."
+     "text": "Yes, this tool is specially designed for government exam forms including SSC, Banking, Railway and NTPC."
    }
- }]
+ },
+ {
+   "@type": "Question",
+   "name": "Will signature quality reduce?",
+   "acceptedAnswer": {
+     "@type": "Answer",
+     "text": "The tool maintains best possible clarity while reducing file size for exam uploads."
+   }
+ }
+ ]
 }
 </script>
 
@@ -84,7 +100,7 @@ margin:40px auto;
 
 <body>
 
-<h1 style="text-align:center;">Signature Resize in 20KB, 50KB for SSC, Banking & NTPC</h1>
+<h1 style="text-align:center;">Resize Signature to 20KB, 30KB, 40KB, 50KB</h1>
 
 <div class="container">
 
@@ -93,7 +109,15 @@ margin:40px auto;
 <img id="preview">
 
 <label>Target Size (KB)</label>
-<input type="number" id="targetSize" placeholder="Enter 20 or 50">
+<input type="number" id="targetSize" placeholder="Enter 20, 30, 40 or 50">
+
+<!-- ✅ Preset Buttons -->
+<div class="preset-buttons">
+<button onclick="setSize(20)">20 KB</button>
+<button onclick="setSize(30)">30 KB</button>
+<button onclick="setSize(40)">40 KB</button>
+<button onclick="setSize(50)">50 KB</button>
+</div>
 
 <button onclick="compressImage()">Resize Signature</button>
 
@@ -109,19 +133,17 @@ margin:40px auto;
 <h2>Resize Signature Online for SSC, Banking & NTPC Exams</h2>
 
 <p>
-Our free online signature resizer allows you to resize signature in 20KB, 50KB or any custom size required for SSC, Banking, Railway, NTPC and other government exam forms. 
-Many exam portals require signature size between 20KB to 50KB, and uploading incorrect file size may lead to form rejection.
+This free signature resizer allows you to resize signature to exact sizes like 20KB, 30KB, 40KB and 50KB for SSC, banking and other government exam forms.
+Uploading incorrect signature size can cause form rejection, so using the correct KB size is important.
 </p>
 
 <p>
-With this tool, you can quickly compress and adjust your signature file size without losing clarity or readability. 
-Simply upload your signature image, enter your required target size in KB, and download the resized signature instantly. 
-The entire process works inside your browser, which means your signature is not uploaded to any server.
+Simply upload your signature image, choose your target size and download instantly.
+The tool works directly in your browser and does not upload your file anywhere.
 </p>
 
 <p>
-This signature resizer is specially optimized for competitive exam aspirants who need fast, accurate and reliable resizing.
-Whether you need to resize signature to 20KB for SSC or 50KB for banking exams, our tool ensures smooth and error-free results.
+It is specially designed for students and job aspirants who need quick and accurate signature resizing for online applications.
 </p>
 
 </section>
@@ -129,14 +151,14 @@ Whether you need to resize signature to 20KB for SSC or 50KB for banking exams, 
 <section>
 <h2>Frequently Asked Questions</h2>
 
-<h3>How to resize signature in 20KB?</h3>
-<p>Upload your signature, enter 20KB and click resize.</p>
+<h3>How to resize signature to 20KB?</h3>
+<p>Upload your signature, select 20KB or enter custom size and click resize.</p>
 
 <h3>Can I resize signature to 50KB?</h3>
-<p>Yes, you can enter 50KB or any custom size.</p>
+<p>Yes, you can use preset buttons or manually enter size.</p>
 
-<h3>Is this tool suitable for SSC, Banking and NTPC?</h3>
-<p>Yes, this tool is specially optimized for government exam form requirements.</p>
+<h3>Is this tool free?</h3>
+<p>Yes, it is completely free and works instantly online.</p>
 
 </section>
 
@@ -164,6 +186,10 @@ preview.style.display = "block";
 };
 reader.readAsDataURL(selectedFile);
 });
+
+function setSize(kb){
+document.getElementById("targetSize").value = kb;
+}
 
 function compressImage(){
 
@@ -201,7 +227,7 @@ let sizeKB = (dataUrl.length * 3/4)/1024;
 
 if(targetSize && sizeKB > targetSize && quality > 0.1){
 quality -= 0.05;
-compress();
+requestAnimationFrame(compress);
 } else {
 
 document.getElementById("loading").style.display = "none";
@@ -227,4 +253,4 @@ reader.readAsDataURL(selectedFile);
 </script>
 
 </body>
-  </html>
+ </html>
