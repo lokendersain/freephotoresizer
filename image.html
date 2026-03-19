@@ -6,9 +6,7 @@
 
 <title>Compress Image to 20KB, 30KB, 40KB, 50KB Online Free</title>
 
-<meta name="description" content="Compress image to 20KB, 30KB, 40KB or 50KB online free. Reduce photo size for SSC, banking, railway and exam forms instantly without losing quality.">
-
-<meta name="keywords" content="compress image to 20kb, image compressor 50kb, reduce image size online, photo resize for ssc form, compress jpg to 20kb">
+<meta name="description" content="Compress image to 20KB, 30KB, 40KB or 50KB online free. Reduce photo size for SSC, banking and exam forms instantly without losing quality. 100% free and fast tool.">
 
 <link rel="canonical" href="https://freephotoresizer.vercel.app/image.html">
 
@@ -42,50 +40,27 @@ cursor:pointer;
 button:hover{
 background:#0b5ed7;
 }
-.preset-buttons button{
-width:48%;
-margin:5px 1%;
-background:#198754;
+img{
+max-width:100%;
+margin-top:10px;
 }
 section{
 max-width:800px;
 margin:40px auto;
 }
-</style>
-
-<!-- FAQ SCHEMA -->
-<script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
- {
-   "@type": "Question",
-   "name": "How to compress image to 20KB online?",
-   "acceptedAnswer": {
-     "@type": "Answer",
-     "text": "Upload your image, choose 20KB or enter custom size, and download compressed image instantly."
-   }
- },
- {
-   "@type": "Question",
-   "name": "Can I compress image for SSC and exam forms?",
-   "acceptedAnswer": {
-     "@type": "Answer",
-     "text": "Yes, this tool is perfect for SSC, banking, railway and other government exam form uploads."
-   }
- },
- {
-   "@type": "Question",
-   "name": "Does this tool reduce image quality?",
-   "acceptedAnswer": {
-     "@type": "Answer",
-     "text": "The tool reduces file size while maintaining best possible quality suitable for uploads."
-   }
- }
- ]
+.preset-buttons button{
+width:48%;
+margin:5px 1%;
+background:#198754;
 }
-</script>
+#loading{
+display:none;
+color:#0d6efd;
+font-weight:bold;
+margin-top:10px;
+text-align:center;
+}
+</style>
 
 </head>
 
@@ -97,8 +72,10 @@ margin:40px auto;
 
 <input type="file" id="upload" accept="image/*">
 
+<img id="preview" style="display:none;">
+
 <label>Target Size (KB)</label>
-<input type="number" id="targetSize" placeholder="Enter size">
+<input type="number" id="targetSize" placeholder="Enter size e.g. 50">
 
 <div class="preset-buttons">
 <button onclick="setSize(20)">20 KB</button>
@@ -109,42 +86,21 @@ margin:40px auto;
 
 <button onclick="compressImage()">Compress Image</button>
 
+<div id="loading">Processing... Please wait</div>
+
 <a id="downloadLink" style="display:none;">
 <button>Download Image</button>
 </a>
 
 </div>
 
-<!-- 🔥 SEO CONTENT START -->
-
 <section>
-<h2>Compress Image to 20KB for SSC & Exam Forms</h2>
+<h2>About Image Compressor Tool</h2>
 <p>
-This free online tool helps you compress image to exact sizes like 20KB, 30KB, 40KB and 50KB instantly.
-It is specially designed for SSC, banking, railway and other government exam forms where image size limits are required.
+This free image compressor allows you to compress image to exact sizes like 20KB, 30KB, 40KB and 50KB online.
+Perfect for SSC, banking and exam forms.
 </p>
-
-<p>
-If your photo is not uploading due to size issues, you can easily reduce image size using this tool without losing quality.
-No signup, no watermark, and works directly in your browser.
-</p>
-
-<h2>How to Reduce Image Size Online?</h2>
-<p>
-Upload your image, select target size like 20KB or 50KB, and click compress.
-The tool automatically adjusts quality and resolution to match your required size.
-</p>
-
-<h2>Common Uses</h2>
-<ul>
-<li>Compress image for SSC form upload</li>
-<li>Reduce photo size for banking exams</li>
-<li>Resize image for government job applications</li>
-<li>Convert large images into small KB size</li>
-</ul>
 </section>
-
-<!-- 🔥 SEO CONTENT END -->
 
 <section>
 <h2>Frequently Asked Questions</h2>
@@ -153,10 +109,7 @@ The tool automatically adjusts quality and resolution to match your required siz
 <p>Upload image, select 20KB and download instantly.</p>
 
 <h3>Is this tool free?</h3>
-<p>Yes, it is completely free and works online.</p>
-
-<h3>Can I use it for exam forms?</h3>
-<p>Yes, it is specially built for SSC, banking and other exam uploads.</p>
+<p>Yes, it is 100% free.</p>
 
 </section>
 
@@ -166,6 +119,13 @@ let selectedFile;
 
 document.getElementById("upload").addEventListener("change", function(e){
 selectedFile = e.target.files[0];
+
+let reader = new FileReader();
+reader.onload = function(event){
+document.getElementById("preview").src = event.target.result;
+document.getElementById("preview").style.display = "block";
+};
+reader.readAsDataURL(selectedFile);
 });
 
 function setSize(kb){
@@ -178,6 +138,9 @@ if(!selectedFile){
 alert("Upload image first");
 return;
 }
+
+// ✅ SHOW PROCESSING
+document.getElementById("loading").style.display = "block";
 
 let targetSize = document.getElementById("targetSize").value;
 
@@ -193,37 +156,56 @@ img.onload = function(){
 let canvas = document.createElement("canvas");
 let ctx = canvas.getContext("2d");
 
-canvas.width = img.width;
-canvas.height = img.height;
+let width = img.width;
+let height = img.height;
 
-ctx.drawImage(img,0,0);
+canvas.width = width;
+canvas.height = height;
 
-// binary search compression
-let min = 0.1;
-let max = 1;
-let bestDataUrl;
+ctx.drawImage(img,0,0,width,height);
 
-function getSize(dataUrl){
-return (dataUrl.length * 3/4)/1024;
-}
+let quality = 0.9;
 
-for(let i=0;i<15;i++){
-let mid = (min + max) / 2;
-let dataUrl = canvas.toDataURL("image/jpeg", mid);
-let size = getSize(dataUrl);
+function compress(){
 
-if(size > targetSize){
-max = mid;
+let dataUrl = canvas.toDataURL("image/jpeg", quality);
+let sizeKB = (dataUrl.length * 3/4)/1024;
+
+if(targetSize && sizeKB > targetSize){
+
+if(quality > 0.2){
+quality -= 0.05;
 } else {
-min = mid;
-bestDataUrl = dataUrl;
-}
+
+width *= 0.9;
+height *= 0.9;
+
+canvas.width = width;
+canvas.height = height;
+
+ctx.drawImage(img,0,0,width,height);
+
+quality = 0.8;
 }
 
+requestAnimationFrame(compress);
+
+} else {
+
+// ✅ HIDE PROCESSING
+document.getElementById("loading").style.display = "none";
+
+// ✅ DOWNLOAD FIX
 const link = document.getElementById("downloadLink");
-link.href = bestDataUrl;
+link.href = dataUrl;
 link.download = "compressed.jpg";
 link.style.display = "block";
+
+}
+
+}
+
+compress();
 
 }
 
